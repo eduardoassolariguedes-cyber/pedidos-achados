@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#faf6ef">
+    <title>Publicar item · Achados &amp; Perdidos</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" th:href="@{/}" aria-label="Voltar para o início">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Achados<span>&amp;</span>Perdidos</strong>
+            <small>comunidade do campus</small>
+          </span>
+        </a>
+        <a class="back-link" th:href="@{/}">Voltar</a>
+      </header>
+
+      <main class="publish-page">
+        <section class="publish-intro">
+          <p class="eyebrow">AJUDE A COMUNIDADE</p>
+          <h1>Publicar um item</h1>
+          <p class="welcome-copy">Conte o que aconteceu para ajudar alguém a encontrar o que perdeu.</p>
+        </section>
+
+        <p class="page-message error-message" th:if="${error}" th:text="${error}"></p>
+
+        <form class="post-form publish-form" th:action="@{/posts}" method="post" enctype="multipart/form-data">
+          <label class="field-label" for="item-title">O que você perdeu ou encontrou?</label>
+          <input id="item-title" name="title" type="text" maxlength="70" placeholder="Ex.: Chaveiro com fita azul" required>
+
+          <label class="field-label" for="item-description">Descrição</label>
+          <textarea id="item-description" name="description" rows="3" maxlength="300"
+                    placeholder="Conte como é o item ou onde foi visto..." required></textarea>
+
+          <label class="field-label" for="item-location">Local específico</label>
+          <input id="item-location" name="location" type="text" maxlength="60"
+                 placeholder="Ex.: Biblioteca, bloco B" required>
+
+          <label class="field-label" for="item-state">Estado</label>
+          <select id="item-state" name="state" required>
+            <option value="">Selecione o estado</option>
+            <option th:each="option : ${states}" th:value="${option.code}"
+                    th:text="|${option.name} (${option.code})|"></option>
+          </select>
+
+          <label class="field-label" for="item-city">Cidade / município</label>
+          <input id="item-city" name="city" type="text" maxlength="60" placeholder="Ex.: Campinas" required>
+
+          <label class="field-label" for="item-neighborhood">Bairro</label>
+          <input id="item-neighborhood" name="neighborhood" type="text" maxlength="60" placeholder="Ex.: Centro" required>
+
+          <span class="field-label">Situação</span>
+          <div class="status-options">
+            <label><input type="radio" name="status" value="perdido" checked><span>Perdi</span></label>
+            <label><input type="radio" name="status" value="encontrado"><span>Encontrei</span></label>
+          </div>
+
+          <label class="field-label" for="item-image">Foto <span class="optional-label">opcional</span></label>
+          <label class="upload-box" for="item-image">
+            <span class="upload-icon" aria-hidden="true">＋</span>
+            <span><strong>Escolher uma foto</strong><small>JPG ou PNG, até 5 MB</small></span>
+            <input id="item-image" name="image" type="file" accept="image/jpeg,image/png">
+          </label>
+
+          <fieldset class="image-fit-options">
+            <legend>Como exibir a foto?</legend>
+            <label><input type="radio" name="imageFit" value="contain" checked><span>Mostrar inteira</span></label>
+            <label><input type="radio" name="imageFit" value="cover"><span>Cortar para preencher</span></label>
+          </fieldset>
+          <label class="zoom-control" for="zoom">
+            <span>Aproximar para cortar (1 a 2,5)</span>
+            <input id="zoom" name="zoom" type="range" min="1" max="2.5" step="0.05" value="1">
+          </label>
+          <p class="image-help">A foto será reduzida e otimizada no servidor ao publicar.</p>
+
+          <button class="submit-button" type="submit">Publicar na comunidade <span aria-hidden="true">→</span></button>
+        </form>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <a class="nav-item" th:href="@{/}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path></svg>
+          <span>Início</span>
+        </a>
+        <a class="nav-item nav-add is-current" th:href="@{/publicar}" aria-current="page">
+          <span class="nav-add-icon" aria-hidden="true">+</span>
+          <span>Publicar</span>
+        </a>
+      </nav>
+    </div>
+  </body>
+</html>

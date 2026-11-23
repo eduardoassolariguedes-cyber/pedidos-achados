@@ -1,0 +1,13 @@
+br/com/achadoseperdidos/repository/PostRepository.class
+br/com/achadoseperdidos/service/ImageProcessor.class
+br/com/achadoseperdidos/service/PostService.class
+br/com/achadoseperdidos/repository/UsuarioRepository.class
+br/com/achadoseperdidos/controller/LoginController.class
+br/com/achadoseperdidos/model/Comment.class
+br/com/achadoseperdidos/controller/UsuarioController.class
+br/com/achadoseperdidos/model/Usuario.class
+br/com/achadoseperdidos/model/LostFoundPost.class
+br/com/achadoseperdidos/controller/PostController$StateOption.class
+br/com/achadoseperdidos/service/UsuarioService.class
+br/com/achadoseperdidos/AchadosPerdidosApplication.class
+br/com/achadoseperdidos/controller/PostController.class

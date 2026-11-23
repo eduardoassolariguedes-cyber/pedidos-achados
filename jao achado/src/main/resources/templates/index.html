@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#faf6ef">
+    <title>Achados &amp; Perdidos</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" th:href="@{/}" aria-label="Achados e Perdidos, início">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Achados<span>&amp;</span>Perdidos</strong>
+            <small>comunidade do campus</small>
+          </span>
+        </a>
+          <a class="logout-button" th:href="@{/sair}">
+          Sair
+        </a>
+      </header>
+
+      <form class="search-panel" id="search-panel" th:action="@{/}" method="get">
+        <label class="visually-hidden" for="search-input">Buscar publicações por item ou localização</label>
+        <input id="search-input" name="q" type="search" placeholder="Buscar item, cidade ou bairro..." th:value="${query}">
+        <input type="hidden" name="status" th:value="${selectedStatus}">
+        <input type="hidden" name="state" th:value="${selectedState}">
+        <input type="hidden" name="city" th:value="${selectedCity}">
+        <input type="hidden" name="neighborhood" th:value="${selectedNeighborhood}">
+        <button type="submit" aria-label="Buscar publicações">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.3"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+        </button>
+      </form>
+
+      <main>
+        <p class="page-message success-message" th:if="${success}" th:text="${success}"></p>
+        <p class="page-message error-message" th:if="${error}" th:text="${error}"></p>
+
+        <section class="feed-section" aria-labelledby="feed-heading">
+          <div class="feed-heading-row">
+            <div>
+              <p class="eyebrow">O QUE A COMUNIDADE COMPARTILHOU</p>
+              <h2 id="feed-heading">Publicações</h2>
+            </div>
+          </div>
+
+          <form class="filter-list" method="get" th:action="@{/}" aria-label="Filtrar por situação">
+            <input type="hidden" name="state" th:value="${selectedState}">
+            <input type="hidden" name="city" th:value="${selectedCity}">
+            <input type="hidden" name="neighborhood" th:value="${selectedNeighborhood}">
+            <input type="hidden" name="q" th:value="${query}">
+            <button class="filter-chip" th:classappend="${selectedStatus == 'todos' ? ' is-active' : ''}"
+                    type="submit" name="status" value="todos" th:attr="aria-pressed=${selectedStatus == 'todos'}">Todos</button>
+            <button class="filter-chip" th:classappend="${selectedStatus == 'perdido' ? ' is-active' : ''}"
+                    type="submit" name="status" value="perdido" th:attr="aria-pressed=${selectedStatus == 'perdido'}">Perdidos</button>
+            <button class="filter-chip" th:classappend="${selectedStatus == 'encontrado' ? ' is-active' : ''}"
+                    type="submit" name="status" value="encontrado" th:attr="aria-pressed=${selectedStatus == 'encontrado'}">Encontrados</button>
+          </form>
+
+          <details class="location-filter-panel"
+                   th:open="${selectedState != '' or selectedCity != '' or selectedNeighborhood != ''}">
+            <summary>
+              <span>Filtrar por localização</span>
+              <small th:if="${selectedState != '' or selectedCity != '' or selectedNeighborhood != ''}">Filtros aplicados</small>
+            </summary>
+            <form class="location-filters" method="get" th:action="@{/}">
+              <input type="hidden" name="status" th:value="${selectedStatus}">
+              <input type="hidden" name="q" th:value="${query}">
+              <label>
+                <span>Estado</span>
+                <select name="state" aria-label="Filtrar por estado">
+                  <option value="">Todos os estados</option>
+                  <option th:each="option : ${states}" th:value="${option.code}"
+                          th:text="|${option.name} (${option.code})|"
+                          th:selected="${selectedState == option.code}"></option>
+                </select>
+              </label>
+              <label>
+                <span>Cidade / município</span>
+                <select name="city" aria-label="Filtrar por cidade ou município">
+                  <option value="">Todas as cidades</option>
+                  <option th:each="option : ${cities}" th:value="${option}"
+                          th:text="${option}" th:selected="${selectedCity == option}"></option>
+                </select>
+              </label>
+              <label>
+                <span>Bairro</span>
+                <select name="neighborhood" aria-label="Filtrar por bairro">
+                  <option value="">Todos os bairros</option>
+                  <option th:each="option : ${neighborhoods}" th:value="${option}"
+                          th:text="${option}" th:selected="${selectedNeighborhood == option}"></option>
+                </select>
+              </label>
+              <button class="filter-submit" type="submit">Aplicar filtros</button>
+            </form>
+          </details>
+
+          <div class="post-list">
+            <article class="post-card" th:each="post : ${posts}" th:id="|post-${post.id}|">
+              <div class="post-header">
+                <span class="post-avatar" aria-hidden="true" th:text="${post.initials}">MC</span>
+                <div class="post-author">
+                  <strong th:text="${post.author}">Marina Costa</strong>
+                  <span class="post-location"
+                        th:text="|${post.location} · ${post.neighborhood}, ${post.city} - ${post.state}|">Biblioteca</span>
+                </div>
+                <span class="post-status" th:classappend="${post.status == 'encontrado' ? ' found' : ''}"
+                      th:text="${post.status == 'encontrado' ? 'Encontrado' : 'Perdido'}">Encontrado</span>
+              </div>
+
+              <div class="post-image" th:classappend="${post.tone}">
+                <img th:if="${post.hasImage()}" th:src="@{/images/{id}(id=${post.id})}" th:alt="${post.title}">
+                <span class="item-illustration" th:unless="${post.hasImage()}" aria-hidden="true"
+                      th:text="${post.emoji}">🔑</span>
+              </div>
+
+              <div class="post-content">
+                <h3 class="post-title" th:text="${post.title}">Chaveiro com fita azul</h3>
+                <p class="post-description" th:text="${post.description}">Descrição do item.</p>
+                <div class="post-card-footer">
+                  <span class="post-age" th:text="${post.createdAt}">há 20 min</span>
+                  <details class="comments-details" th:open="${openComments != null and openComments == post.id}">
+                    <summary th:text="|Comentários (${#lists.size(post.comments)})|">Comentários (1)</summary>
+                    <div class="comments-body">
+                      <div class="comment-list">
+                        <div class="comment" th:each="comment : ${post.comments}">
+                          <strong th:text="${comment.author}">Lucas</strong>
+                          <span th:text="${comment.text}">Comentário sobre o item.</span>
+                        </div>
+                        <p class="no-comments" th:if="${#lists.isEmpty(post.comments)}">Ainda não há comentários.</p>
+                      </div>
+                      <form class="comment-form" th:action="@{/posts/{id}/comments(id=${post.id})}" method="post"
+                            th:id="|comment-form-${post.id}|">
+                        <label class="visually-hidden" th:for="|comment-${post.id}|">Escrever comentário</label>
+                        <input th:id="|comment-${post.id}|" name="text" type="text" maxlength="180"
+                               placeholder="Escreva um comentário..." required>
+                        <button type="submit">Enviar</button>
+                      </form>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </article>
+            <p class="empty-state" th:if="${#lists.isEmpty(posts)}">Nenhuma publicação encontrada com esses filtros.</p>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <a class="nav-item is-current" th:href="@{/}" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path></svg>
+          <span>Início</span>
+        </a>
+        <a class="nav-item nav-add" th:href="@{/publicar}">
+          <span class="nav-add-icon" aria-hidden="true">+</span>
+          <span>Publicar</span>
+        </a>
+      </nav>
+    </div>
+  </body>
+</html>

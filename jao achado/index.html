@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#faf6ef">
+    <title>Prévia · Achados &amp; Perdidos</title>
+    <link rel="stylesheet" href="src/main/resources/static/style.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Achados e Perdidos, início">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Achados<span>&amp;</span>Perdidos</strong>
+            <small>comunidade do campus</small>
+          </span>
+        </a>
+      </header>
+
+      <form class="search-panel" id="search-panel">
+        <label class="visually-hidden" for="search-input">Buscar publicações</label>
+        <input id="search-input" type="search" placeholder="Buscar item, cidade ou bairro...">
+        <button type="button" aria-label="Buscar publicações">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.3"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+        </button>
+      </form>
+
+      <main>
+        <section class="feed-section" aria-labelledby="feed-heading">
+          <div class="feed-heading-row">
+            <div>
+              <p class="eyebrow">O QUE A COMUNIDADE COMPARTILHOU</p>
+              <h2 id="feed-heading">Publicações</h2>
+            </div>
+          </div>
+
+          <div class="filter-list" aria-label="Filtros de situação">
+            <span class="filter-chip is-active">Todos</span>
+            <span class="filter-chip">Perdidos</span>
+            <span class="filter-chip">Encontrados</span>
+          </div>
+
+          <details class="location-filter-panel">
+            <summary><span>Filtrar por localização</span></summary>
+            <div class="location-filters">
+              <label>
+                <span>Estado</span>
+                <select aria-label="Estado">
+                  <option>Todos os estados</option>
+                  <option>São Paulo (SP)</option>
+                </select>
+              </label>
+              <label>
+                <span>Cidade / município</span>
+                <select aria-label="Cidade ou município">
+                  <option>Todas as cidades</option>
+                  <option>São Paulo</option>
+                </select>
+              </label>
+              <label>
+                <span>Bairro</span>
+                <select aria-label="Bairro">
+                  <option>Todos os bairros</option>
+                  <option>Centro</option>
+                  <option>Vila Mariana</option>
+                </select>
+              </label>
+              <button class="filter-submit" type="button">Aplicar filtros</button>
+            </div>
+          </details>
+
+          <div class="post-list">
+            <article class="post-card" id="post-1">
+              <div class="post-header">
+                <span class="post-avatar" aria-hidden="true">MC</span>
+                <div class="post-author">
+                  <strong>Marina Costa</strong>
+                  <span class="post-location">Biblioteca · Centro, São Paulo - SP</span>
+                </div>
+                <span class="post-status found">Encontrado</span>
+              </div>
+              <div class="post-image tone-blue">
+                <span class="item-illustration" aria-hidden="true">🔑</span>
+              </div>
+              <div class="post-content">
+                <h3 class="post-title">Chaveiro com fita azul</h3>
+                <p class="post-description">Encontrei perto das mesas da biblioteca. Alguém reconhece?</p>
+                <div class="post-card-footer">
+                  <span class="post-age">há 20 min</span>
+                  <details class="comments-details">
+                    <summary>Comentários (1)</summary>
+                    <div class="comments-body">
+                      <div class="comment-list">
+                        <div class="comment"><strong>Lucas</strong><span>Vou perguntar no grupo da minha sala!</span></div>
+                      </div>
+                      <form class="comment-form">
+                        <label class="visually-hidden" for="comment-1">Escrever comentário</label>
+                        <input id="comment-1" type="text" placeholder="Escreva um comentário..." disabled>
+                        <button type="button" disabled>Enviar</button>
+                      </form>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card" id="post-2">
+              <div class="post-header">
+                <span class="post-avatar" aria-hidden="true">PA</span>
+                <div class="post-author">
+                  <strong>Pedro Almeida</strong>
+                  <span class="post-location">Bloco B · Vila Mariana, São Paulo - SP</span>
+                </div>
+                <span class="post-status">Perdido</span>
+              </div>
+              <div class="post-image tone-green">
+                <span class="item-illustration" aria-hidden="true">🧴</span>
+              </div>
+              <div class="post-content">
+                <h3 class="post-title">Garrafa térmica verde</h3>
+                <p class="post-description">Acho que esqueci no laboratório de informática depois da aula.</p>
+                <div class="post-card-footer">
+                  <span class="post-age">há 1 h</span>
+                  <details class="comments-details">
+                    <summary>Comentários (0)</summary>
+                    <div class="comments-body">
+                      <div class="comment-list">
+                        <p class="no-comments">Ainda não há comentários.</p>
+                      </div>
+                      <form class="comment-form">
+                        <label class="visually-hidden" for="comment-2">Escrever comentário</label>
+                        <input id="comment-2" type="text" placeholder="Escreva um comentário..." disabled>
+                        <button type="button" disabled>Enviar</button>
+                      </form>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <a class="nav-item is-current" href="#" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path></svg>
+          <span>Início</span>
+        </a>
+        <span class="nav-item nav-add">
+          <span class="nav-add-icon" aria-hidden="true">+</span>
+          <span>Publicar</span>
+        </span>
+      </nav>
+    </div>
+  </body>
+</html>
